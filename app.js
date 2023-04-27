@@ -5,7 +5,7 @@ const HOST = 'localhost';
 const app = express();
 const fs = require("fs");
 const path = require("path");
-const { EventEmitter } = require("events");
+const tester = require("./tester.js")
 
 
 app.use(
@@ -107,20 +107,10 @@ app.listen(PORT, HOST, () => {
     console.log(`Listening at http://${HOST}:${PORT}`);
 });
 
-const myEvent = new EventEmitter();
+const myTestEmitter = new tester.TestEmitter();
 
-// this event WILL NOT be emitted, bc it occurs after the handler
-myEvent.emit("objectEvent", {
-    name: "mike",
-    sport: "soccer"
+myTestEmitter.on(tester.TEST_EVENT, obj => {
+    console.log(obj);
 });
 
-myEvent.on("objectEvent", (obj) => {
-    console.log(obj)
-});
-
-// this event WILL BE emitted
-myEvent.emit("objectEvent", {
-    name: "jake",
-    sport: "basketball"
-});
+myTestEmitter.test();

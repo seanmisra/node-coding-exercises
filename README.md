@@ -10,3 +10,4 @@ Commits correspond to each exercises
 8. Read file from file system, perform data manipulation, return via GET API (use path/fs modules)
 9. Repeat exercise 8, with stream syntax (don't consider large file for now)
 10. EventEmitter example
+11. Modules with EventEmitter (require EventEmitter from another module)
