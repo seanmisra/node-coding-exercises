@@ -59,6 +59,25 @@ app.post("/concat", (req, res) => {
     return res.send(stringOne + stringTwo);
 })
 
+app.get("/range", (req, res) => {
+    const min = req.query.min ? parseInt(req.query.min) : 0; // default min to 0
+    const max = req.query.max ? parseInt(req.query.max) : 100; // default max to 0
+
+    if (min > max) {
+        return res.status(400).send({
+            message: "min cannot be greater than max"
+        })
+    }
+
+    const returnedInts = [];
+
+    for (let i = min; i <= max; i++) {
+        returnedInts.push(i);
+    }
+
+    return res.send(returnedInts);
+})
+
 app.listen(PORT, HOST, () => {
     console.log(`Listening at http://${HOST}:${PORT}`);
 });
