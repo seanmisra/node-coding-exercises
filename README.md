@@ -9,3 +9,4 @@ Commits correspond to each exercises
 7. Write GET API, with parameters min/max. Will return array of integers in between range
 8. Read file from file system, perform data manipulation, return via GET API (use path/fs modules)
 9. Repeat exercise 8, with stream syntax (don't consider large file for now)
+10. EventEmitter example

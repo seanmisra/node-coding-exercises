@@ -5,6 +5,8 @@ const HOST = 'localhost';
 const app = express();
 const fs = require("fs");
 const path = require("path");
+const { EventEmitter } = require("events");
+
 
 app.use(
     cors({
@@ -103,4 +105,22 @@ app.get("/readFile", async (req, res) => {
 
 app.listen(PORT, HOST, () => {
     console.log(`Listening at http://${HOST}:${PORT}`);
+});
+
+const myEvent = new EventEmitter();
+
+// this event WILL NOT be emitted, bc it occurs after the handler
+myEvent.emit("objectEvent", {
+    name: "mike",
+    sport: "soccer"
+});
+
+myEvent.on("objectEvent", (obj) => {
+    console.log(obj)
+});
+
+// this event WILL BE emitted
+myEvent.emit("objectEvent", {
+    name: "jake",
+    sport: "basketball"
 });
