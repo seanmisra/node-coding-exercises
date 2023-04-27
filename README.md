@@ -5,3 +5,4 @@ Commits correspond to each exercises
 3. Web server with express module
 4. Configure CORS with express (allow all origins)
 5. Write POST API that returns sum of all elements in array (make sure to handle error scenarios)
+6. Write POST API, where body has two fields (strings) that are concatenated into a single result

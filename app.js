@@ -45,6 +45,20 @@ app.post("/sum", (req, res) => {
     return res.send({sum: sum});
 })
 
+app.post("/concat", (req, res) => {
+    const { stringOne } = req.body;
+    const { stringTwo } = req.body;
+
+    if (!stringOne || !stringTwo) {
+        res.status(400).send({
+            message: "must include both strings"
+        });
+        return;
+    }
+
+    return res.send(stringOne + stringTwo);
+})
+
 app.listen(PORT, HOST, () => {
     console.log(`Listening at http://${HOST}:${PORT}`);
 });
