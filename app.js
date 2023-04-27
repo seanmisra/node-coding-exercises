@@ -5,8 +5,13 @@ const HOST = 'localhost';
 const app = express();
 const fs = require("fs");
 const path = require("path");
-const tester = require("./tester.js")
+const tester = require("./tester.js");
+require('dotenv').config({ path: './local.env' });
+const { MongoClient } = require("mongodb");
 
+// need to add local.env and add your own mongo url
+let uri = process.env.DATABASE_URL;
+let mongoClient = new MongoClient(uri);
 
 app.use(
     cors({
@@ -107,10 +112,15 @@ app.listen(PORT, HOST, () => {
     console.log(`Listening at http://${HOST}:${PORT}`);
 });
 
-const myTestEmitter = new tester.TestEmitter();
+async function connectToDB() {
+    try {
+        let database = mongoClient.db(process.env.DATABASE_NAME);
+        let movies = database.collection(process.env.COLLECTION_NAME);
 
-myTestEmitter.on(tester.TEST_EVENT, obj => {
-    console.log(obj);
-});
-
-myTestEmitter.test();
+        // will show up if connection succeeded
+        console.log(database);
+    } finally {
+        await mongoClient.close();
+    }
+}
+connectToDB().catch(console.error);

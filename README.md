@@ -11,3 +11,4 @@ Commits correspond to each exercises
 9. Repeat exercise 8, with stream syntax (don't consider large file for now)
 10. EventEmitter example
 11. Modules with EventEmitter (require EventEmitter from another module)
+12. MongoDB (create client; connect to Mongo)
