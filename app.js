@@ -80,20 +80,25 @@ app.get("/range", (req, res) => {
     return res.send(returnedInts);
 })
 
-app.get("/readFile", (req, res) => {
+
+app.get("/readFile", async (req, res) => {
     // can change the file name to test error scenario
     filePath = path.join(__dirname, 'mockData.json');
+    const readable = fs.createReadStream(filePath, 'utf8');
 
-    fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) {
-            return res.status(500).send({
-                message: "Error reading file"
-            })
-        }
-        const userData = JSON.parse(data);
-        const activeUsers = userData.filter(user => user.active);
-        return res.send(activeUsers)
-    })
+    readable.on('error', err => {
+        console.log("ERROR: ");
+        console.log(err.stack);
+    });
+
+    let allData = []
+    for await (let chunk of readable) {
+        const parsedChunk = JSON.parse(chunk);
+        allData.push(...parsedChunk);
+    }
+    
+    const activeUsers = allData.filter(user => user.active);
+    return res.send(activeUsers);
 });
 
 app.listen(PORT, HOST, () => {
