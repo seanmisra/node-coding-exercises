@@ -7,3 +7,4 @@ Commits correspond to each exercises
 5. Write POST API that returns sum of all elements in array (make sure to handle error scenarios)
 6. Write POST API, where body has two fields (strings) that are concatenated into a single result
 7. Write GET API, with parameters min/max. Will return array of integers in between range
+8. Read file from file system, perform data manipulation, return via GET API (use path/fs modules)

@@ -3,6 +3,8 @@ const cors = require("cors");
 const PORT = 3000;
 const HOST = 'localhost';
 const app = express();
+const fs = require("fs");
+const path = require("path");
 
 app.use(
     cors({
@@ -77,6 +79,22 @@ app.get("/range", (req, res) => {
 
     return res.send(returnedInts);
 })
+
+app.get("/readFile", (req, res) => {
+    // can change the file name to test error scenario
+    filePath = path.join(__dirname, 'mockData.json');
+
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            return res.status(500).send({
+                message: "Error reading file"
+            })
+        }
+        const userData = JSON.parse(data);
+        const activeUsers = userData.filter(user => user.active);
+        return res.send(activeUsers)
+    })
+});
 
 app.listen(PORT, HOST, () => {
     console.log(`Listening at http://${HOST}:${PORT}`);
