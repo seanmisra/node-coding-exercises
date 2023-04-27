@@ -1,14 +1,12 @@
-const http = require("http");
+const express = require("express");
 const PORT = 3000;
 const HOST = 'localhost';
+const app = express();
 
-const server = http.createServer((req, res) => {
-    if (req.url === "/") {
-        res.write("Hello World");
-        res.end();
-    }
+app.get("/", (req, res) => {
+    res.send("Hello World");
 });
 
-server.listen(PORT, HOST, () => {
-    console.log(`server is running at http://${HOST}:${PORT}`);
+app.listen(PORT, HOST, () => {
+    console.log(`Listening at http://${HOST}:${PORT}`);
 });
