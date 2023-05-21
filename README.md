@@ -13,3 +13,4 @@ Commits correspond to each exercises
 11. Modules with EventEmitter (require EventEmitter from another module)
 12. MongoDB (create client; connect to Mongo)
 13. Make an external API request (GET) with axios
+14. Make an external API request (POST) with axios

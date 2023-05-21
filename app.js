@@ -124,6 +124,35 @@ app.get("/externalCall", async (req, res) => {
     }
 })
 
+// use GET path, but testing external POST call
+app.get("/externalCallPost", async (req, res) => {
+    const body = {
+        name: "Apple MacBook Pro 16",
+        data: {
+           year: 2020
+        }
+     }
+
+     // sample API for testing
+     const url = "https://api.restful-api.dev/objects";
+    //  const url = "https://apii.restful-api.dev/objects"; use to test error scenario
+     let result = null;
+
+     try {
+        result = await axios.post(
+            url, body
+         );
+
+        const data = result.data;
+        data.metadata = "POST call to external api successful";
+        return res.send(
+            data
+        );
+    } catch (err) {
+        return res.send("Result of calling: " + url + ": " + err);
+    }
+})
+
 app.listen(PORT, HOST, () => {
     console.log(`Listening at http://${HOST}:${PORT}`);
 });
