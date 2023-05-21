@@ -8,6 +8,7 @@ const path = require("path");
 const tester = require("./tester.js");
 require('dotenv').config({ path: './local.env' });
 const { MongoClient } = require("mongodb");
+const axios = require("axios");
 
 // need to add local.env and add your own mongo url
 let uri = process.env.DATABASE_URL;
@@ -108,19 +109,21 @@ app.get("/readFile", async (req, res) => {
     return res.send(activeUsers);
 });
 
+app.get("/externalCall", async (req, res) => {
+    const config = {
+        method: "GET", 
+        url: "https://github.com" // modify to test error scenario
+    };
+
+    let result = null;
+    try {
+        result = await axios(config);
+        return res.send("Result of calling: " + config.url + ": " + result.status);
+    } catch (err) {
+        return res.send("Result of calling: " + config.url + ": " + err);
+    }
+})
+
 app.listen(PORT, HOST, () => {
     console.log(`Listening at http://${HOST}:${PORT}`);
 });
-
-async function connectToDB() {
-    try {
-        let database = mongoClient.db(process.env.DATABASE_NAME);
-        let movies = database.collection(process.env.COLLECTION_NAME);
-
-        // will show up if connection succeeded
-        console.log(database);
-    } finally {
-        await mongoClient.close();
-    }
-}
-connectToDB().catch(console.error);
